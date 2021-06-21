@@ -15,7 +15,7 @@ public class CategoryUpdateRequest {
     private Long id;
 
     @Size(min = 4, max = 250, message = "Name size must be between {min} and {max}")
-    @NotBlank(message = "This field must not null and empty")// not null and empty
+    @NotBlank(message = "This field must not null and empty")
     private String name;
 
 }
