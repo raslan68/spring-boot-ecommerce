@@ -7,6 +7,7 @@ import com.ramiaslan.ecommerce.entity.Category;
 import com.ramiaslan.ecommerce.exception.CategoryException;
 import com.ramiaslan.ecommerce.repository.CategoryRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,4 +79,9 @@ public class CategoryService {
         return categoryResponse;
     }
 
+    public List<CategoryResponse> slice(Pageable pageable) {
+        return categoryRepo.findAll(pageable)
+                .stream().map(this::convert)
+                .collect(Collectors.toList());
+    }
 }

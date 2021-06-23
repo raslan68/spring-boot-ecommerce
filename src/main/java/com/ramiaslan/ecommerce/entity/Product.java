@@ -1,5 +1,7 @@
 package com.ramiaslan.ecommerce.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +33,7 @@ public class Product {
     @Column(name = "description", nullable = false, length = 500)
     private String description;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

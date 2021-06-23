@@ -1,5 +1,6 @@
 package com.ramiaslan.ecommerce.repository;
 
+
 import com.ramiaslan.ecommerce.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, Long> {
 
+     boolean existsByName(String name);
 }
