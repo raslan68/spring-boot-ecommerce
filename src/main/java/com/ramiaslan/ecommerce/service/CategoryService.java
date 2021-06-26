@@ -30,21 +30,13 @@ public class CategoryService {
     }
 
     public void updateCategory(CategoryUpdateRequest categoryUpdateRequest) {
-        Long id = categoryUpdateRequest.getId();
         String name = categoryUpdateRequest.getName();
 
         existsByCategoryName(name);
 
-        Optional<Category> category = findById(id);
-        category.get().setName(name);
-        categoryRepo.save(category.get());
-    }
-
-    public CategoryResponse getCategoryById(Long id) {
-        Optional<Category> category = findById(id);
-        CategoryResponse categoryResponse = convert(category.get());
-
-        return categoryResponse;
+        Category category = findById(categoryUpdateRequest.getId()).get();
+        category.setName(name);
+        categoryRepo.save(category);
     }
 
     public void deleteCategory(Long id) {
@@ -52,10 +44,29 @@ public class CategoryService {
         categoryRepo.deleteById(id);
     }
 
+    public CategoryResponse getCategoryById(Long id) {
+        Category category = findById(id).get();
+        return convert(category);
+    }
+
     public List<CategoryResponse> getAllCategory() {
         return categoryRepo.findAll().stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
+    }
+
+    public List<CategoryResponse> slice(Pageable pageable) {
+        return categoryRepo.findAll(pageable)
+                .stream().map(this::convert)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Category> findByName(String name) {
+        Optional<Category> category = categoryRepo.findByName(name);
+        if (category.isEmpty()) {
+            throw new CategoryException("Category is not found");
+        }
+        return category;
     }
 
     private Optional<Category> findById(Long id) {
@@ -79,9 +90,4 @@ public class CategoryService {
         return categoryResponse;
     }
 
-    public List<CategoryResponse> slice(Pageable pageable) {
-        return categoryRepo.findAll(pageable)
-                .stream().map(this::convert)
-                .collect(Collectors.toList());
-    }
 }

@@ -4,7 +4,6 @@ import com.ramiaslan.ecommerce.controller.request.CategoryCreateRequest;
 import com.ramiaslan.ecommerce.controller.request.CategoryUpdateRequest;
 import com.ramiaslan.ecommerce.controller.response.CategoryResponse;
 import com.ramiaslan.ecommerce.controller.response.GenericResponse;
-import com.ramiaslan.ecommerce.controller.response.ProductResponse;
 import com.ramiaslan.ecommerce.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -54,10 +53,9 @@ public class CategoryController {
     }
 
     @GetMapping("/slice")
-    public ResponseEntity<List<CategoryResponse>> slice(Pageable pageable){
+    public ResponseEntity<List<CategoryResponse>> slice(Pageable pageable) {
         List<CategoryResponse> result = categoryService.slice(pageable);
         return ResponseEntity.ok(result);
-
     }
 
 }

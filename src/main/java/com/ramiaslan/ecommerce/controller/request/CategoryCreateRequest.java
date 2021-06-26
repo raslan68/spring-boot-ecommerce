@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 @Setter
 public class CategoryCreateRequest {
 
-    @Size(min = 4, max = 250, message = "Name size must be between {min} and {max}")
-    @NotBlank(message = "This field must not null and empty")
+    @Size(min = 2, max = 50, message = "Name size must be between {min} and {max}")
+    @NotBlank(message = "Name must not be null or empty")
     private String name;
 
 }
