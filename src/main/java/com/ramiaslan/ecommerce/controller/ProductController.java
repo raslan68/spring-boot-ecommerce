@@ -7,7 +7,6 @@ import com.ramiaslan.ecommerce.controller.response.ProductResponse;
 import com.ramiaslan.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +21,9 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductCreateRequest productCreateRequest) {
         productService.createProduct(productCreateRequest);
-        return ResponseEntity.ok(new GenericResponse(201, "Successfully created"));
+        return ResponseEntity.ok(new GenericResponse(200, "Successfully created"));
     }
 
     @PutMapping

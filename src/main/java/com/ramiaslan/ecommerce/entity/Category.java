@@ -20,7 +20,7 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<Product> products = new HashSet<>();
 
 }

@@ -5,6 +5,7 @@ import com.ramiaslan.ecommerce.controller.request.ProductUpdateRequest;
 import com.ramiaslan.ecommerce.controller.response.ProductResponse;
 import com.ramiaslan.ecommerce.entity.Category;
 import com.ramiaslan.ecommerce.entity.Product;
+import com.ramiaslan.ecommerce.exception.CategoryException;
 import com.ramiaslan.ecommerce.exception.ProductException;
 import com.ramiaslan.ecommerce.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,12 @@ public class ProductService {
     public void createProduct(ProductCreateRequest productCreateRequest) {
         Category category = categoryService.findByName(productCreateRequest.getCategoryName()).get();
 
+        String barcode = productCreateRequest.getBarcode();
+        existsByBarcode(barcode);
+
         Product product = new Product();
         product.setName(productCreateRequest.getName());
-        product.setBarcode(productCreateRequest.getBarcode());
+        product.setBarcode(barcode);
         product.setPrice(productCreateRequest.getPrice());
         product.setStockAmount(productCreateRequest.getStockAmount());
         product.setDescription(productCreateRequest.getDescription());
@@ -38,11 +42,13 @@ public class ProductService {
 
     public void updateProduct(ProductUpdateRequest productUpdateRequest) {
         Product product = findById(productUpdateRequest.getId()).get();
-
         Category category = categoryService.findByName(productUpdateRequest.getCategoryName()).get();
 
+        String barcode = productUpdateRequest.getBarcode();
+        existsByBarcode(barcode);
+
         product.setName(productUpdateRequest.getName());
-        product.setBarcode(productUpdateRequest.getBarcode());
+        product.setBarcode(barcode);
         product.setPrice(productUpdateRequest.getPrice());
         product.setStockAmount(productUpdateRequest.getStockAmount());
         product.setDescription(productUpdateRequest.getDescription());
@@ -79,6 +85,12 @@ public class ProductService {
             throw new ProductException("Product not found");
         }
         return product;
+    }
+
+    private void existsByBarcode(String barcode) {
+        if (productRepo.existsByBarcode(barcode)) {
+            throw new CategoryException("Barcode must be unique");
+        }
     }
 
     private ProductResponse convert(Product product) {

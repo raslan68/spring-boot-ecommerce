@@ -7,7 +7,6 @@ import com.ramiaslan.ecommerce.controller.response.GenericResponse;
 import com.ramiaslan.ecommerce.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +21,9 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryCreateRequest categoryCreateRequest) {
         categoryService.createCategory(categoryCreateRequest);
-        return ResponseEntity.ok(new GenericResponse(201, "Successfully created"));
+        return ResponseEntity.ok(new GenericResponse(200, "Successfully created"));
     }
 
     @PutMapping
